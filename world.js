@@ -1,3 +1,5 @@
+var _ = require('underscore');
+
 var lPad = require('../phi-launchpad-js/launchpad');
 var midiInt = require('../phi-launchpad-js/node_midi_interface');
 
@@ -33,6 +35,21 @@ Area.prototype.draw = function(lPad) {
       numWalls = room.walls.length;
       lPad.setLed(r, c, [numWalls, numWalls]);
     }
+  }
+}
+
+var DepthFirstGen = function(area) {
+  this.area = area;
+  this.visited = [];
+}
+
+DepthFirstGen.prototype.visit = function(room) {
+  this.visited.push(room);
+  var unvisitedNeighbors = _.reject(room.neighbors(), function(room) {
+    _.contains(this.visited, room);
+  });
+  if (unvisitedNeighbors.length > 0) {
+    this.visit(unvisitedNeighbors[_.random(0, unvisitedNeighbors.length)]);
   }
 }
 
