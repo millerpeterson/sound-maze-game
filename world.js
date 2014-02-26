@@ -46,21 +46,13 @@ var Room = function(row, col, area) {
 };
 
 Room.prototype.neighbors = function() {
-  var n = [];
-  if (this.pos[0] > 0) {
-    n.push([this.pos[0] - 1, this.pos[1]]); // Up
-  }
-  if (this.pos[0] < this.area.rows()) {
-    n.push([this.pos[0] + 1, this.pos[1]]); // Down
-  }
-  if (this.pos[1] > 0) {
-    n.push([this.pos[0], this.pos[1] - 1]); // Left
-  }
-  if (this.pos[1] < this.area.cols()) {
-    n.push([this.pos[0], this.pos[1] + 1]); // Right
-  }
-  // B A B A SELECT START
-  return n;
+  var n = _.map(this.walls, _.bind(function(wall) {
+    return [this.pos[0] + wall[0], this.pos[1] + wall[1]];
+  }, this));
+  return _.reject(n, _.bind(function(neighbor) {
+    (neighbor[0] < 0) || (neighbor[0] >= this.area.rows()) ||
+    (neighbor[1] < 0) || (neighbor[1] >= this.area.cols());
+  }, this));
 }
 
 var mInt = new midiInt.midi();
