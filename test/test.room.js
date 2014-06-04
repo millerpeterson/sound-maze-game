@@ -46,12 +46,25 @@ suite('room', function() {
 
   test('can create passages', function() {
     var r1 = new Room([7, 9], testArea);
-    var r2 = new Room([3, 6], testArea);
+    var r2 = new Room([8, 9], testArea);
+    var r3 = new Room([7, 10], testArea);
     assert(!r1.passageTo(r2));
     assert(!r2.passageTo(r1));
     r1.createPassage(r2);
     assert(r1.passageTo(r2));
     assert(r2.passageTo(r1));
+    assert(!r1.passageTo(r3));
+    assert(!r3.passageTo(r1));
+  });
+
+  test('createPassage makes neighbors accessible', function() {
+    var r1 = new Room([2, 4], testArea);
+    var r2 = new Room([3, 4], testArea);
+    var r3 = new Room([1, 4], testArea);
+    assert.equal(r1.accessibleNeighbors().length, 0);
+    r1.createPassage(r2);
+    r1.createPassage(r3);
+    assert.equal(r1.accessibleNeighbors().length, 2);
   });
 
 });
