@@ -7,7 +7,8 @@
     "underscore": "1.5.x"
   },
   "devDependencies": {
-    "mocha": "1.16.x"
+    "mocha": "1.16.x",
+    "sinon": "1.10.x"
   },
   "scripts": {
     "test": "make test"
