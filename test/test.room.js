@@ -16,12 +16,12 @@ suite('room', function() {
   });
 
   test('has a position', function() {
-    var r = new Room([7, 7]);
+    var r = new Room([7, 7], testArea);
     assert(r.pos.isEq([7, 7]));
   });
 
   test('has four walls', function() {
-    var r = new Room([5, 7]);
+    var r = new Room([5, 7], testArea);
     assert.equal(r.walls.length, 4);
     _.each(wallVecs, function(targetWallPos) {
       assert(!!_.find(r.walls, function(w) {
