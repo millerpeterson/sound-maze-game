@@ -16,7 +16,7 @@
 (defn positions
   "Possible maze room positions."
   [width height]
-  (mapv #(into [] %)
+  (map #(into [] %)
        (combo/cartesian-product (range width) (range height))))
 
 (defn neighbors
