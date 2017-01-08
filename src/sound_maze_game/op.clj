@@ -1,6 +1,6 @@
-(ns sprite-assembly.op
-  (require [sprite-assembly.sprite :as sprite]
-           [sprite-assembly.colors :as led]))
+(ns sound-maze-game.op
+  (require [sound-maze-game.sprite :as sprite]
+           [sound-maze-game.colors :as led]))
 
 (defn region-map
   "Map leds in a given region of a sprite."
