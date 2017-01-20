@@ -2,12 +2,21 @@
   (require [clojure.math.combinatorics :as combo]
            [clojure.test :as test]))
 
+(def named-dir-vecs
+  "Named direction vectors of neighbors in a maze."
+  (hash-map :left [0 -1]
+            :right [0 1]
+            :up [-1 0]
+            :down [1 0]))
+
 (def dir-vecs
   "Possible direction vectors of neighbors in a maze."
-  #{[-1 0]
-    [1 0]
-    [0, -1]
-    [0, 1]})
+  (into #{} (vals named-dir-vecs)))
+
+(defn named-dirs
+  "Retrn a list of dirs corresponding to a list of names."
+  [dir-names]
+  (into #{} (vals (select-keys named-dir-vecs dir-names))))
 
 (defn add-vec
   "Sum two vectors."
@@ -20,7 +29,7 @@
   (mapv #(* scalar %) v))
 
 (defn sub-vec
-  "Subtract a vector from another (v1 - v2)"
+  "Subtract a vector from another (v1 - v2)."
   [v1 v2]
   (add-vec (scale-vec v2 -1) v1))
 
@@ -46,10 +55,11 @@
   (contains? (:walls r1)
              (sub-vec (:pos r2) (:pos r1))))
 
-;; (defn passage-to?
-;;   "Whether a room is open to another (i.e. neither have walls facing the other)."
-;;   [r1 r2]
-;;   (and ()))
+(defn passage-to?
+  "Whether a room is open to another (i.e. neither have walls facing the other)."
+  [r1 r2]
+  (and (not (wall-facing? r1 r2))
+       (not (wall-facing? r2 r1))))
 
 (defn closed-maze
   "A two-dimensional grid of rooms; all walls are present so no room is
