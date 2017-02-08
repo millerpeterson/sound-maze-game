@@ -28,18 +28,24 @@
 ; 5......d
 ;  0123456
 
-(def test-rm-b (room [4 5] (named-dirs [:up :down :left]))) ; Right is open
-(def test-rm-c (room [4 6] (named-dirs [:up :right]))) ; Left and Down are open
-(def test-rm-d (room [5 6] (named-dirs [:up :down :left :right]))) ; None are open
+(defonce test-rm-b (room [4 5] (named-dirs [:up :down :left]))) ; Right is open
+(defonce test-rm-c (room [4 6] (named-dirs [:up :right]))) ; Left and Down are open
+(defonce test-rm-d (room [5 6] (named-dirs [:up :down :left :right]))) ; None are open
 
 (deftest test-wall-facing?
   (is (= (wall-facing? test-rm-b test-rm-c) false))
   (is (= (wall-facing? test-rm-c test-rm-b) false))
   (is (= (wall-facing? test-rm-d test-rm-c) true))
-  (is (= (wall-facing? test-rm-c test-rm-d) false)))
+  (is (= (wall-facing? test-rm-c test-rm-d) false))
+  (is (= (wall-facing? test-rm-b test-rm-b) false)
+      "No room has a wall facing itself.")
+  )
 
 (deftest test-passage-to?
   (is (= (passage-to? test-rm-b test-rm-c) true))
   (is (= (passage-to? test-rm-c test-rm-b) true))
   (is (= (passage-to? test-rm-c test-rm-d) false))
-  (is (= (passage-to? test-rm-d test-rm-c) false)))
+  (is (= (passage-to? test-rm-d test-rm-c) false))
+  (is (= (passage-to? test-rm-d test-rm-d) true)
+         "Rooms have passage to themselves.")
+  )
