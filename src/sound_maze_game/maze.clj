@@ -1,6 +1,5 @@
 (ns sound-maze-game.maze
-  (require [clojure.math.combinatorics :as combo]
-           [clojure.test :as test]))
+  (require [clojure.math.combinatorics :as combo]))
 
 (def named-dir-vecs
   "Named direction vectors of neighbors in a maze."
@@ -52,17 +51,44 @@
 (defn wall-facing?
   "Whether a room (r1) has a wall facing the other (r2)."
   [r1 r2]
-  (contains? (:walls r1)
-             (sub-vec (:pos r2) (:pos r1))))
+  (let [vec-diff (sub-vec (:pos r2) (:pos r1))]
+    (and (not (= [0 0] vec-diff))
+         (contains? (:walls r1) vec-diff))))
 
 (defn passage-to?
-  "Whether a room is open to another (i.e. neither have walls facing the other)."
+  "Whether a room is open to another (i.e. neither have walls facing the other,
+  and they are adjacent)."
   [r1 r2]
-  (and (not (wall-facing? r1 r2))
-       (not (wall-facing? r2 r1))))
+  (let [vec-diff (sub-vec (:pos r2) (:pos r1))]
+        (or (= vec-diff [0 0])
+            (and (contains? dir-vecs (sub-vec (:pos r2) (:pos r1)))
+                 (not (wall-facing? r1 r2))
+                 (not (wall-facing? r2 r1))))))
+
+(defn closed-room
+  "A room at a given position with walls on each side."
+  [pos]
+  (room pos dir-vecs))
+
+(defn maze
+  "A collection of rooms."
+  [rooms]
+  (reduce (fn [pos-map room]
+            (assoc pos-map (:pos room) room))
+          {} rooms))
+
+(defn rooms
+  "Maze rooms."
+  [maze]
+  (vals maze))
+
+(defn room-at
+  "Return the room in a maze a given position, or nil if no such room exists."
+  [maze pos]
+  (get maze pos))
 
 (defn closed-maze
   "A two-dimensional grid of rooms; all walls are present so no room is
   accessible from any other."
   [width height]
-  (mapv #(room %1 dir-vecs) (positions width height)))
+  (maze (mapv closed-room (positions width height))))

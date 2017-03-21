@@ -37,6 +37,7 @@
   (is (= (wall-facing? test-rm-c test-rm-b) false))
   (is (= (wall-facing? test-rm-d test-rm-c) true))
   (is (= (wall-facing? test-rm-c test-rm-d) false))
+  (is (= (wall-facing? test-rm-b test-rm-d) false))
   (is (= (wall-facing? test-rm-b test-rm-b) false)
       "No room has a wall facing itself.")
   )
@@ -47,5 +48,42 @@
   (is (= (passage-to? test-rm-c test-rm-d) false))
   (is (= (passage-to? test-rm-d test-rm-c) false))
   (is (= (passage-to? test-rm-d test-rm-d) true)
-         "Rooms have passage to themselves.")
+      "Rooms have passage to themselves.")
   )
+
+(defonce closed-rm-middle (closed-room [3 4]))
+(defonce closed-rm-right (closed-room [3 5]))
+(defonce closed-rm-left (closed-room [3 3]))
+(defonce closed-rm-up (closed-room [2 4]))
+(defonce closed-rm-down (closed-room [4 4]))
+
+(deftest test-closed-room
+  (is (= (passage-to? closed-rm-middle closed-rm-right) false))
+  (is (= (passage-to? closed-rm-middle closed-rm-up) false))
+  (is (= (passage-to? closed-rm-middle closed-rm-down) false))
+  (is (= (passage-to? closed-rm-middle closed-rm-left) false))
+  )
+
+(defonce test-maze (maze [test-rm-b test-rm-c test-rm-d]))
+
+(deftest test-room-at
+  (is (= (room-at test-maze [4 5]) test-rm-b))
+  (is (= (room-at test-maze [4 6]) test-rm-c))
+  (is (= (room-at test-maze [5 6]) test-rm-d))
+  (is (= (room-at test-maze [5 5]) nil))
+  )
+
+(defonce test-closed-maze (closed-maze 2 2))
+
+(deftest test-closed-maze
+  (is (= (passage-to? (room-at test-closed-maze [0 0]) (room-at test-closed-maze [0 1])) false))
+  (is (= (passage-to? (room-at test-closed-maze [0 0]) (room-at test-closed-maze [1 1])) false))
+  (is (= (passage-to? (room-at test-closed-maze [0 0]) (room-at test-closed-maze [1 0])) false))
+  (is (= (passage-to? (room-at test-closed-maze [0 1]) (room-at test-closed-maze [0 0])) false))
+  (is (= (passage-to? (room-at test-closed-maze [0 1]) (room-at test-closed-maze [1 0])) false))
+  (is (= (passage-to? (room-at test-closed-maze [0 1]) (room-at test-closed-maze [1 1])) false))
+  (is (= (passage-to? (room-at test-closed-maze [1 1]) (room-at test-closed-maze [0 0])) false))
+  (is (= (passage-to? (room-at test-closed-maze [1 1]) (room-at test-closed-maze [1 0])) false))
+  (is (= (passage-to? (room-at test-closed-maze [1 1]) (room-at test-closed-maze [0 1])) false))
+  )
+;; (deftest test-closed-maze)
