@@ -38,6 +38,7 @@
   (map #(into [] %)
        (combo/cartesian-product (range width) (range height))))
 
+;; TODO: neighbors should filter for off-the-board positions.
 (defn neighbors
   "Neighbouring positions of a reference position."
   [pos]
@@ -92,3 +93,15 @@
   accessible from any other."
   [width height]
   (maze (mapv closed-room (positions width height))))
+
+(defn wall-opened
+  "A room with a given wall opened towards another."
+  [r1 r2]
+  (assoc r1 :walls
+         (remove (:walls r1) (sub-vec (:pos r2) (:pos r1)))))
+
+(defn passage-opened
+  "The given maze with passage opened between two designated rooms"
+  [r1 r2]
+  (let [opened-r1-to-r2 (wall-opened r1 r2)]
+    (wall-opened r2 opened-r1-to-r2)))

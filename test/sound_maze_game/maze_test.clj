@@ -73,17 +73,24 @@
   (is (= (room-at test-maze [5 5]) nil))
   )
 
-(defonce test-closed-maze (closed-maze 2 2))
+(defonce tcm (closed-maze 2 2))
 
 (deftest test-closed-maze
-  (is (= (passage-to? (room-at test-closed-maze [0 0]) (room-at test-closed-maze [0 1])) false))
-  (is (= (passage-to? (room-at test-closed-maze [0 0]) (room-at test-closed-maze [1 1])) false))
-  (is (= (passage-to? (room-at test-closed-maze [0 0]) (room-at test-closed-maze [1 0])) false))
-  (is (= (passage-to? (room-at test-closed-maze [0 1]) (room-at test-closed-maze [0 0])) false))
-  (is (= (passage-to? (room-at test-closed-maze [0 1]) (room-at test-closed-maze [1 0])) false))
-  (is (= (passage-to? (room-at test-closed-maze [0 1]) (room-at test-closed-maze [1 1])) false))
-  (is (= (passage-to? (room-at test-closed-maze [1 1]) (room-at test-closed-maze [0 0])) false))
-  (is (= (passage-to? (room-at test-closed-maze [1 1]) (room-at test-closed-maze [1 0])) false))
-  (is (= (passage-to? (room-at test-closed-maze [1 1]) (room-at test-closed-maze [0 1])) false))
+  (is (= (passage-to? (room-at tcm [0 0]) (room-at tcm [0 1])) false))
+  (is (= (passage-to? (room-at tcm [0 0]) (room-at tcm [1 1])) false))
+  (is (= (passage-to? (room-at tcm [0 0]) (room-at tcm [1 0])) false))
+  (is (= (passage-to? (room-at tcm [0 1]) (room-at tcm [0 0])) false))
+  (is (= (passage-to? (room-at tcm [0 1]) (room-at tcm [1 0])) false))
+  (is (= (passage-to? (room-at tcm [0 1]) (room-at tcm [1 1])) false))
+  (is (= (passage-to? (room-at tcm [1 1]) (room-at tcm [0 0])) false))
+  (is (= (passage-to? (room-at tcm [1 1]) (room-at tcm [1 0])) false))
+  (is (= (passage-to? (room-at tcm [1 1]) (room-at tcm [0 1])) false))
   )
-;; (deftest test-closed-maze)
+
+(deftest test-passage-opened
+  (let [opened-wall (passage-opened (room-at tcm [0 1]) (room-at tcm [1 1]))]
+    (is (= (passage-to? (room-at opened-wall [0 1]) (room-at opened-wall [1 1])) true))
+    (is (= (passage-to? (room-at opened-wall [1 1]) (room-at opened-wall [0 1])) true))
+    (is (= (passage-to? (room-at opened-wall [1 0]) (room-at opened-wall [1 1])) false))
+    (is (= (passage-to? (room-at opened-wall [1 1]) (room-at opened-wall [1 0])) false))
+  ))
