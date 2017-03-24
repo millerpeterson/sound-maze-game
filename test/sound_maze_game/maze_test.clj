@@ -88,7 +88,7 @@
   )
 
 (deftest test-passage-opened
-  (let [opened-wall (passage-opened (room-at tcm [0 1]) (room-at tcm [1 1]))]
+  (let [opened-wall (passage-opened tcm [0 1] [1 1])]
     (is (= (passage-to? (room-at opened-wall [0 1]) (room-at opened-wall [1 1])) true))
     (is (= (passage-to? (room-at opened-wall [1 1]) (room-at opened-wall [0 1])) true))
     (is (= (passage-to? (room-at opened-wall [1 0]) (room-at opened-wall [1 1])) false))

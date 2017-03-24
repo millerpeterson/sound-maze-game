@@ -59,8 +59,9 @@
 (defn passage-to?
   "Whether a room is open to another (i.e. neither have walls facing the other,
   and they are adjacent)."
-  [r1 r2]
-  (let [vec-diff (sub-vec (:pos r2) (:pos r1))]
+  [mz pos1 pos2]
+  (let [[r1 r2] (mapv #(room-at mz %) [pos1 pos2])
+        [vec-diff (sub-vec (:pos r2) (:pos r1))]
         (or (= vec-diff [0 0])
             (and (contains? dir-vecs (sub-vec (:pos r2) (:pos r1)))
                  (not (wall-facing? r1 r2))
@@ -91,17 +92,19 @@
 (defn closed-maze
   "A two-dimensional grid of rooms; all walls are present so no room is
   accessible from any other."
-  [width height]
-  (maze (mapv closed-room (positions width height))))
+  [rows cols]
+  (maze (mapv closed-room (positions cols rows))))
 
 (defn wall-opened
   "A room with a given wall opened towards another."
   [r1 r2]
   (assoc r1 :walls
-         (remove (:walls r1) (sub-vec (:pos r2) (:pos r1)))))
+         (disj (:walls r1) (sub-vec (:pos r2) (:pos r1)))))
 
 (defn passage-opened
-  "The given maze with passage opened between two designated rooms"
-  [r1 r2]
-  (let [opened-r1-to-r2 (wall-opened r1 r2)]
-    (wall-opened r2 opened-r1-to-r2)))
+  "The given maze with passage opened between the room at pos1 and the room at pos2."
+  [mz pos1 pos2]
+  (let [[r1 r2] (mapv #(room-at mz %) [pos1 pos2])]
+    (-> mz
+        (assoc pos1 (wall-opened r1 r2))
+        (assoc pos2 (wall-opened r2 r1)))))
