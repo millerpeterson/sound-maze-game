@@ -49,10 +49,17 @@
   [pos walls]
   (hash-map :pos pos :walls walls))
 
+(defn room-at
+  "Return the room in a maze a given position, or nil if no such room exists."
+  [maze pos]
+  (get maze pos))
+
 (defn wall-facing?
-  "Whether a room (r1) has a wall facing the other (r2)."
-  [r1 r2]
-  (let [vec-diff (sub-vec (:pos r2) (:pos r1))]
+  "Whether a room (r1) has a wall facing the other (r2). r1 and r2 are assumed
+   to be part of the same maze."
+  [mz pos1 pos2]
+  (let [[r1 r2] (mapv #(room-at mz %) [pos1 pos2])
+        vec-diff (sub-vec pos2 pos1)]
     (and (not (= [0 0] vec-diff))
          (contains? (:walls r1) vec-diff))))
 
@@ -60,12 +67,11 @@
   "Whether a room is open to another (i.e. neither have walls facing the other,
   and they are adjacent)."
   [mz pos1 pos2]
-  (let [[r1 r2] (mapv #(room-at mz %) [pos1 pos2])
-        [vec-diff (sub-vec (:pos r2) (:pos r1))]
+  (let [vec-diff (sub-vec pos2 pos1)]
         (or (= vec-diff [0 0])
-            (and (contains? dir-vecs (sub-vec (:pos r2) (:pos r1)))
-                 (not (wall-facing? r1 r2))
-                 (not (wall-facing? r2 r1))))))
+            (and (contains? dir-vecs vec-diff)
+                 (not (wall-facing? mz pos1 pos2))
+                 (not (wall-facing? mz pos2 pos1))))))
 
 (defn closed-room
   "A room at a given position with walls on each side."
@@ -83,11 +89,6 @@
   "Maze rooms."
   [maze]
   (vals maze))
-
-(defn room-at
-  "Return the room in a maze a given position, or nil if no such room exists."
-  [maze pos]
-  (get maze pos))
 
 (defn closed-maze
   "A two-dimensional grid of rooms; all walls are present so no room is
