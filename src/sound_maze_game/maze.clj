@@ -38,9 +38,8 @@
   (map #(into [] %)
        (combo/cartesian-product (range width) (range height))))
 
-;; TODO: neighbors should filter for off-the-board positions.
-(defn neighbors
-  "Neighbouring positions of a reference position."
+(defn neighbor-poss
+  "Neighboring positions of a reference position."
   [pos]
   (into #{} (map #(add-vec %1 pos) dir-vecs)))
 
@@ -55,8 +54,7 @@
   (get maze pos))
 
 (defn wall-facing?
-  "Whether a room (r1) has a wall facing the other (r2). r1 and r2 are assumed
-   to be part of the same maze."
+  "Whether a room in a maze has a wall facing another."
   [mz pos1 pos2]
   (let [[r1 r2] (mapv #(room-at mz %) [pos1 pos2])
         vec-diff (sub-vec pos2 pos1)]
@@ -109,3 +107,21 @@
     (-> mz
         (assoc pos1 (wall-opened r1 r2))
         (assoc pos2 (wall-opened r2 r1)))))
+
+(defn neighbors
+  "Neighboring rooms in a maze relative to a reference position."
+  [mz pos]
+  (into #{} (remove nil? (map #(room-at mz %) (neighbor-poss pos)))))
+
+(defn passage-dests
+  [mz pos]
+  "Rooms in a maze that a reference position has passage to."
+  (into #{} (filter #(passage-to? mz pos (:pos %)))
+                    (neighbors mz pos)))
+
+(defn passage-dirs
+  [mz pos]
+  "Directions in a maze that a reference position has passage towards."
+  (let [ref-room (room-at mz pos)]
+    (into #{} (map #(sub-vec (:pos %) (:pos ref-room))
+                   (passage-dests mz pos)))))

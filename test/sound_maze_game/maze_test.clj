@@ -1,6 +1,7 @@
 (ns sound-maze-game.maze-test
   (:use clojure.test
-        sound-maze-game.maze))
+        sound-maze-game.maze
+        sound-maze-game.demo-mazes))
 
 (deftest test-named-dirs
   (is (= (named-dirs [:left :down]) #{[1 0] [0 -1]})))
@@ -19,9 +20,9 @@
   (is (= (sub-vec [9 5] [1 1]) [8 4]))
   (is (= (sub-vec [-2 5] [0 2]) [-2 3])))
 
-(deftest test-neighbors
+(deftest test-neighbors-poss
   (let [ref-pos [5 6]
-        nbrs (neighbors ref-pos)]
+        nbrs (neighbor-poss ref-pos)]
     (is (= nbrs #{[4 6] [6 6] [5 5] [5 7]}))))
 
 ; 4.....bc
@@ -79,7 +80,7 @@
   (is (= (passage-to? test-closed-room-maze (:pos closed-rm-middle) (:pos closed-rm-left)) false))
   )
 
-(defonce tcm (closed-maze 2 2))
+(defonce tcm (closed-maze 3 3))
 
 (deftest test-closed-maze
   (is (= (passage-to? tcm [0 0] [0 1]) false))
@@ -99,4 +100,31 @@
     (is (= (passage-to? opened-wall [1 1] [0 1]) true))
     (is (= (passage-to? opened-wall [1 0] [1 1]) false))
     (is (= (passage-to? opened-wall [1 1] [1 0]) false))
-  ))
+    ))
+
+(deftest test-neighbors
+  (is (= (neighbors tcm [0 0])
+         #{(room-at tcm [0 1])
+           (room-at tcm [1 0])}))
+  (is (= (neighbors tcm [0 1])
+         #{(room-at tcm [0 0])
+           (room-at tcm [1 1])
+           (room-at tcm [0 2])}))
+  (is (= (neighbors tcm [1 1])
+         #{(room-at tcm [0 1])
+           (room-at tcm [2 1])
+           (room-at tcm [1 2])
+           (room-at tcm [1 0])}))
+  )
+
+(deftest test-passage-dirs
+  (is (= (passage-dirs mvi1-maze [0 0]) #{(:right named-dir-vecs)}))
+  (is (= (passage-dirs mvi1-maze [1 1]) #{(:up named-dir-vecs)
+                                          (:down named-dir-vecs)}))
+  (is (= (passage-dirs mvi1-maze [4 3]) #{(:up named-dir-vecs)
+                                          (:left named-dir-vecs)
+                                          (:right named-dir-vecs)}))
+  (is (= (passage-dirs mvi1-maze [4 1]) #{(:up named-dir-vecs)
+                                          (:down named-dir-vecs)
+                                          (:right named-dir-vecs)}))
+  )
