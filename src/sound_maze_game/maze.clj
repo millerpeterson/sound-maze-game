@@ -1,5 +1,5 @@
 (ns sound-maze-game.maze
-  (require [clojure.math.combinatorics :as combo]))
+  (:require [clojure.math.combinatorics :as combo]))
 
 (def named-dir-vecs
   "Named direction vectors of neighbors in a maze."
