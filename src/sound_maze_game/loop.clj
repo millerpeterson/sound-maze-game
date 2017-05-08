@@ -1,9 +1,10 @@
 (ns sound-maze-game.loop
-  (:require [clojure.core.async :as async :refer [go-loop chan <!]]
+  (:require [clojure.core.async :as async :refer [go-loop chan <! >!]]
             [clojure.string :as string :refer [trim]]
             [sound-maze-game.maze :as maze]
             [sound-maze-game.demo-mazes :as demo-mazes]
-            [sound-maze-game.maxmsp :as maxmsp]))
+            [sound-maze-game.maxmsp :as maxmsp]
+            [sound-maze-game.max-view :as max-view]))
 
 (def game-state-history (atom []))
 
@@ -43,17 +44,20 @@
 (defn start-game-loop
   "Start a game loop running. Returns a channel for telling the
    loop to stop."
-  [start-state from-max-chan]
+  [start-state from-max-chan to-max-chan]
   (go-loop [state start-state]
     (let [action-data (trim (<! from-max-chan))]
       (if (not (= action-data "quit!"))
         (if-let [action (maxmsp/max-deserialized action-data)]
-          (recur (handle-action! state action))
+          (let [new-state (handle-action! state action)]
+            (>! to-max-chan
+                (maxmsp/max-serialized (max-view/view new-state)))
+            (recur new-state))
           (recur (cant-handle-action-data! state action-data)))))))
 
 (comment
   (def max-send-chan (maxmsp/make-send-channel 7605))
   (def max-recv-chan (maxmsp/make-receive-channel 7606))
   (def start-state (start-game-state demo-mazes/mvi1-maze (player [0 0])))
-  (start-game-loop start-state max-recv-chan)
-)
+  (start-game-loop start-state max-recv-chan max-send-chan)
+  )
