@@ -8,7 +8,7 @@
 	([port] (new DatagramSocket port)))
 
 (defn send-data
-  "Send data over a socket to a particular ip/port combo."
+  "Send data over a socket to a given ip/port combo."
   [send-socket ip port data]
   (let [ipaddress (InetAddress/getByName ip)
         send-packet (new DatagramPacket (.getBytes data) (.length data) ipaddress port)]
