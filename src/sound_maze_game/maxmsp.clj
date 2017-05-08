@@ -21,4 +21,5 @@
 (defn max-deserialized
   "Receive a message from a max/msp channel."
   [msg]
-  (json/read-str msg))
+  (try (json/read-str msg)
+       (catch Exception _ nil)))
