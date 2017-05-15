@@ -21,17 +21,42 @@
             :player player
             :turn 0))
 
+(defn move-intention-realized
+  "The player after any intention to move is changed to their
+   actual position."
+  [player]
+  (println player)
+  (if-let [intention (:movement-intention player)]
+    (-> player
+        (assoc :pos intention)
+        (assoc :movement-intention nil))
+    player))
+
+(defn next-turn
+  "Advance the game simulation by one turn."
+  [game-state]
+  (-> game-state
+      (update :player move-intention-realized)
+      (update :turn inc)))
+
 (defn state-after-action
   "Return the state after processing a game action."
   [game-state action]
-  game-state)
+  (let [action-type (get action "type")
+        action-payload (get action "payload")]
+    (case action-type
+      "movement-intention" (assoc-in game-state
+                                     [:player :movement-intention]
+                                     action-payload)
+      "next-turn" (next-turn game-state)
+      game-state)))
 
 (defn handle-action!
   "Handles an action, updating the game state history.
    Returns the updated game state."
   [game-state action]
   (let [new-state (state-after-action game-state action)]
-    (println "handle action" action)
+    (println action "->" (:player new-state) (:turn new-state))
     (swap! game-state-history #(conj % [action, new-state]))
     new-state))
 
@@ -56,8 +81,8 @@
           (recur (cant-handle-action-data! state action-data)))))))
 
 (comment
-  (def max-send-chan (maxmsp/make-send-channel 7605))
-  (def max-recv-chan (maxmsp/make-receive-channel 7606))
+  (def max-send-chan (maxmsp/make-send-channel 7607))
+  (def max-recv-chan (maxmsp/make-receive-channel 7608))
   (def start-state (start-game-state demo-mazes/mvi1-maze (player [0 0])))
   (start-game-loop start-state max-recv-chan max-send-chan)
   )
