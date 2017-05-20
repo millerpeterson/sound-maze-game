@@ -61,14 +61,13 @@
     new-state))
 
 (defn cant-handle-action-data!
-  "Logs that an action cannot be handled"
+  "Logs that an action cannot be handled."
   [game-state action-data]
   (println "Can't parse data from Max:" action-data)
   game-state)
 
 (defn start-game-loop
-  "Start a game loop running. Returns a channel for telling the
-   loop to stop."
+  "Start a game loop running."
   [start-state from-max-chan to-max-chan]
   (go-loop [state start-state]
     (let [action-data (trim (<! from-max-chan))]
