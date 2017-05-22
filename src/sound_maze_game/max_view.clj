@@ -7,6 +7,5 @@
   (let [mz (:maze game-state)
         player (:player game-state)]
     (hash-map
-     :available-dirs (into [] (maze/passage-dirs mz (:pos player)))
+     :available-dirs (mapv maze/dir-named-vecs (maze/passage-dirs mz (:pos player)))
      :player-pos (:pos player))))
-

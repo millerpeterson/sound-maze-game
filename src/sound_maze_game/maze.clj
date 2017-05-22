@@ -1,5 +1,6 @@
 (ns sound-maze-game.maze
-  (:require [clojure.math.combinatorics :as combo]))
+  (:require [clojure.math.combinatorics :as combo]
+            [clojure.set :refer [map-invert]]))
 
 (def named-dir-vecs
   "Named direction vectors of neighbors in a maze."
@@ -7,6 +8,10 @@
             :right [0 1]
             :up [-1 0]
             :down [1 0]))
+
+(def dir-named-vecs
+  "Lookup for direct names based on their vectors."
+  (map-invert named-dir-vecs))
 
 (def dir-vecs
   "Possible direction vectors of neighbors in a maze."
