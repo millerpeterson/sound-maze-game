@@ -28,7 +28,7 @@
   (println player)
   (if-let [intention (:movement-intention player)]
     (-> player
-        (assoc :pos intention)
+        (update :pos #(maze/add-vec % (maze/named-dir-vecs intention)))
         (assoc :movement-intention nil))
     player))
 
@@ -47,7 +47,10 @@
     (case action-type
       "movement-intention" (assoc-in game-state
                                      [:player :movement-intention]
-                                     action-payload)
+                                     (keyword action-payload))
+      "set-player-pos" (assoc-in game-state
+                              [:player :pos]
+                              action-payload)
       "next-turn" (next-turn game-state)
       game-state)))
 
