@@ -1,5 +1,5 @@
 (ns sound-maze-game.loop
-  (:require [clojure.core.async :as async :refer [go-loop chan <! >!]]
+  (:require [clojure.core.async :as async :refer [go-loop chan <! >! >!!]]
             [clojure.string :as string :refer [trim]]
             [sound-maze-game.maze :as maze]
             [sound-maze-game.maxmsp :as maxmsp]
@@ -25,6 +25,7 @@
 (defn start-game-loop
   "Start a game loop running."
   [start-state reducer from-max-chan to-max-chan]
+  (>!! to-max-chan (maxmsp/max-serialized (max-view/view start-state)))
   (go-loop [state start-state]
     (let [action-data (trim (<! from-max-chan))]
       (if (not (= action-data "quit!"))
