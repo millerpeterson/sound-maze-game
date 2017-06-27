@@ -9,7 +9,7 @@
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 854.0, 127.0, 926.0, 914.0 ],
+		"rect" : [ 969.0, 85.0, 926.0, 914.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -37,6 +37,32 @@
 		"style" : "",
 		"subpatcher_template" : "",
 		"boxes" : [ 			{
+				"box" : 				{
+					"id" : "obj-7",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 7.0, 13.0, 144.0, 22.0 ],
+					"style" : "",
+					"text" : "loadmess \"Launchpad S\""
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-5",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "bang" ],
+					"patching_rect" : [ 580.0, 91.0, 60.0, 22.0 ],
+					"style" : "",
+					"text" : "loadbang"
+				}
+
+			}
+, 			{
 				"box" : 				{
 					"id" : "obj-55",
 					"maxclass" : "newobj",
@@ -270,7 +296,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "int" ],
-					"patching_rect" : [ 243.5, 18.0, 42.0, 22.0 ],
+					"patching_rect" : [ 242.0, 54.0, 42.0, 22.0 ],
 					"style" : "",
 					"text" : "midiin"
 				}
@@ -283,7 +309,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "bang" ],
-					"patching_rect" : [ 208.5, 84.0, 24.0, 24.0 ],
+					"patching_rect" : [ 207.0, 120.0, 24.0, 24.0 ],
 					"style" : ""
 				}
 
@@ -1179,7 +1205,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 148.5, 51.0, 37.0, 22.0 ],
+					"patching_rect" : [ 147.0, 87.0, 37.0, 22.0 ],
 					"style" : "",
 					"text" : "reset"
 				}
@@ -1192,7 +1218,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "bang" ],
-					"patching_rect" : [ 148.5, 17.0, 24.0, 24.0 ],
+					"patching_rect" : [ 147.0, 53.0, 24.0, 24.0 ],
 					"style" : ""
 				}
 
@@ -1203,7 +1229,7 @@
 					"maxclass" : "newobj",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 375.0, 585.0, 92.0, 22.0 ],
+					"patching_rect" : [ 375.0, 539.0, 92.0, 22.0 ],
 					"style" : "",
 					"text" : "s to_launchpad"
 				}
@@ -1239,7 +1265,7 @@
 					"maxclass" : "newobj",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 243.5, 85.0, 106.0, 22.0 ],
+					"patching_rect" : [ 242.0, 121.0, 106.0, 22.0 ],
 					"style" : "",
 					"text" : "s from_launchpad"
 				}
@@ -1431,6 +1457,7 @@
 						"tags" : "",
 						"style" : "",
 						"subpatcher_template" : "",
+						"visible" : 1,
 						"boxes" : [ 							{
 								"box" : 								{
 									"id" : "obj-35",
@@ -1440,7 +1467,7 @@
 									"outlettype" : [ "" ],
 									"patching_rect" : [ 109.0, 237.0, 67.0, 22.0 ],
 									"style" : "",
-									"text" : "8 2 1 4 0 2"
+									"text" : "8 2 1 4 2 2"
 								}
 
 							}
@@ -1453,7 +1480,7 @@
 									"outlettype" : [ "" ],
 									"patching_rect" : [ 259.0, 237.0, 67.0, 22.0 ],
 									"style" : "",
-									"text" : "3 7 4 1 0 2"
+									"text" : "3 7 4 1 2 2"
 								}
 
 							}
@@ -1466,7 +1493,7 @@
 									"outlettype" : [ "" ],
 									"patching_rect" : [ 27.0, 237.0, 67.0, 22.0 ],
 									"style" : "",
-									"text" : "1 2 1 4 0 2"
+									"text" : "1 2 1 4 2 2"
 								}
 
 							}
@@ -1492,7 +1519,7 @@
 									"outlettype" : [ "" ],
 									"patching_rect" : [ 187.0, 237.0, 67.0, 22.0 ],
 									"style" : "",
-									"text" : "3 0 4 1 0 2"
+									"text" : "3 0 4 1 2 2"
 								}
 
 							}
@@ -1728,7 +1755,7 @@
 					"numinlets" : 0,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 23.0, 17.0, 90.0, 22.0 ],
+					"patching_rect" : [ 21.5, 53.0, 90.0, 22.0 ],
 					"style" : "",
 					"text" : "r to_launchpad"
 				}
@@ -1807,7 +1834,7 @@
 					"maxclass" : "newobj",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 23.0, 118.0, 49.0, 22.0 ],
+					"patching_rect" : [ 21.5, 154.0, 49.0, 22.0 ],
 					"style" : "",
 					"text" : "midiout"
 				}
@@ -1820,7 +1847,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 23.0, 84.0, 73.0, 22.0 ],
+					"patching_rect" : [ 21.5, 120.0, 73.0, 22.0 ],
 					"style" : "",
 					"text" : "phi.lpad.out"
 				}
@@ -1833,7 +1860,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 23.0, 51.0, 103.0, 22.0 ],
+					"patching_rect" : [ 21.5, 87.0, 103.0, 22.0 ],
 					"style" : "",
 					"text" : "phi.lpad.smartout"
 				}
@@ -1846,7 +1873,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 243.5, 52.0, 65.0, 22.0 ],
+					"patching_rect" : [ 242.0, 88.0, 65.0, 22.0 ],
 					"style" : "",
 					"text" : "phi.lpad.in"
 				}
@@ -2216,6 +2243,26 @@
 			}
 , 			{
 				"patchline" : 				{
+					"destination" : [ "obj-12", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"order" : 0,
+					"source" : [ "obj-5", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-16", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"order" : 1,
+					"source" : [ "obj-5", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
 					"destination" : [ "obj-1", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
@@ -2238,6 +2285,27 @@
 					"disabled" : 0,
 					"hidden" : 0,
 					"source" : [ "obj-6", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-18", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"midpoints" : [ 16.5, 150.0, 31.0, 150.0 ],
+					"order" : 1,
+					"source" : [ "obj-7", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-46", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"order" : 0,
+					"source" : [ "obj-7", 0 ]
 				}
 
 			}
@@ -2271,10 +2339,6 @@
 
 			}
  ],
-		"parameters" : 		{
-
-		}
-,
 		"dependency_cache" : [ 			{
 				"name" : "phi.lpad.in.maxpat",
 				"bootpath" : "~/dev/phi-launchpad-max",
