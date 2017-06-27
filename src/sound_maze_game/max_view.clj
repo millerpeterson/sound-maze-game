@@ -8,7 +8,7 @@
   (let [[odx ody] (maze/sub-vec listener-pos object-pos)
         listener-bin-pos [0.5 0.5]
         object-bin-pos (maze/sub-vec listener-bin-pos
-                                     [(/ ody 7.0) (/ odx 7.0)])]
+                                     [(/ ody 5.0) (/ odx 5.0)])]
     (hash-map :listener-pos listener-bin-pos
               :object-pos object-bin-pos)))
 
