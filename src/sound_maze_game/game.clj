@@ -18,13 +18,13 @@
   (hash-map :maze maze
             :player player
             :exit exit
+            :turn-ticks 0
             :turn 0))
 
 (defn move-intention-realized
   "The player after any intention to move is changed to their
    actual position."
   [player]
-  (println player)
   (if-let [intention (:movement-intention player)]
     (-> player
         (update :pos #(maze/add-vec % (maze/named-dir-vecs intention)))
@@ -36,6 +36,7 @@
   [game-state]
   (-> game-state
       (update :player move-intention-realized)
+      (assoc :turn-ticks 0)
       (update :turn inc)))
 
 (defmulti action-reduced
@@ -54,6 +55,10 @@
   (assoc-in game-state
             [:player :pos]
             (get action :payload)))
+
+(defmethod action-reduced "turn-tick"
+  [game-state action]
+  (update game-state :turn-ticks inc))
 
 (defmethod action-reduced "next-turn"
   [game-state _]

@@ -21,5 +21,6 @@
      :available-dirs (mapv maze/dir-named-vecs
                            (maze/passage-dirs mz (:pos player)))
      :player-pos (:pos player)
-     :exit-staging (binaural-staging (:pos player) (:pos exit))
-     )))
+     :turn-tick (get game-state :turn-ticks)
+     :exit-staging (binaural-staging (:pos player)
+                                     (:pos exit)))))

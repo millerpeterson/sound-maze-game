@@ -1,6 +1,7 @@
 (ns sound-maze-game.loop
   (:require [clojure.core.async :as async :refer [go-loop chan <! >! >!!]]
             [clojure.string :as string :refer [trim]]
+            [clojure.pprint :as pp :refer [pprint]]
             [sound-maze-game.maze :as maze]
             [sound-maze-game.maxmsp :as maxmsp]
             [sound-maze-game.max-view :as max-view]))
@@ -12,7 +13,8 @@
    Returns the updated game state."
   [game-state action reducer]
   (let [new-state (reducer game-state action)]
-    (println action "->" (:player new-state) (:turn new-state))
+    (pprint action)
+    (pprint (dissoc new-state :maze))
     (swap! game-state-history #(conj % [action, new-state]))
     new-state))
 
